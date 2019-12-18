@@ -84,7 +84,16 @@ if ((infile === outfile) && (!argv.force)) {
 }
 
 var src;
-var srcStr = fs.readFileSync(path.resolve(infile),'utf8');
+var infd;
+
+// Read from STDIN if infile is literal '-'
+if (infile === '-') {
+	infd = 0;
+} else {
+	infd = path.resolve(infile);
+}
+
+var srcStr = fs.readFileSync(infd,'utf8');
 src = yaml.safeLoad(srcStr,{json:true});
 
 var dest;
